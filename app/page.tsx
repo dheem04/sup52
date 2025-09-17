@@ -84,107 +84,96 @@ export default function BirthdayPage() {
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
           {/* Slide 1 — Welcome */}
-          <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
-            <div className="w-full h-full flex flex-col items-center justify-between py-8">
-              <div className="text-center space-y-6">
+          <section className="w-screen flex-shrink-0 flex items-center justify-center px-4 py-6">
+            <div className="w-full max-w-sm flex flex-col items-center justify-center space-y-6">
+              <div className="text-center space-y-3">
                 <div className="relative">
-                  <h1 className="text-6xl font-black bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse-slow">
-                    Happy Birthday
-                  </h1>
-                  <div className="absolute -top-4 -right-4 text-4xl animate-spin-slow">✨</div>
+                 
+                  <div className="absolute -top-2 -right-2 text-2xl animate-spin-slow">✨</div>
                 </div>
-                <h2 className="text-7xl font-black text-white drop-shadow-2xl animate-bounce-gentle">
+                <h2 className="text-3xl sm:text-4xl font-black text-white drop-shadow-2xl animate-bounce-gentle leading-tight">
                   HAPPY BIRTHDAY APPA
                 </h2>
-                <div className="text-5xl animate-wiggle">❣️</div>
+                <div className="text-4xl animate-wiggle">❣️</div>
               </div>
 
-              <div className="relative w-full flex items-center justify-center my-8">
+              <div className="relative w-full flex items-center justify-center">
                 <StickerCharacters />
               </div>
 
-              <div className="w-full px-6">
-                <div className="flex items-center justify-center gap-2">
-                 
-                  <button
-                    onClick={() => go(1)}
-                    className="px-3 py-2 rounded-full bg-rose-500 text-white font-semibold shadow"
-                  >
-                    Dive in →
-                  </button>
-                </div>
-              </div>
+              <button
+                onClick={() => go(1)}
+                className="px-6 py-3 rounded-full bg-rose-500 text-white font-semibold shadow-lg hover:bg-rose-600 transition-colors"
+              >
+                Dive in →
+              </button>
             </div>
           </section>
 
           {/* Slide 2 — Poem */}
-          <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
-            <div className="w-full h-full flex flex-col items-center justify-between py-8">
-              <div className="mt-2 text-center space-y-4">
-                <h2 className="text-2xl font-bold text-white drop-shadow-lg">A little poem for Appa</h2>
-                <div className="mt-2 p-6 rounded-2xl bg-white/90 backdrop-blur shadow-2xl border border-white/20">
-                  <pre className="whitespace-pre-wrap text-center text-lg leading-relaxed text-gray-800 font-medium">{POEM}</pre>
+          <section className="w-screen flex-shrink-0 flex items-center justify-center px-4 py-6">
+            <div className="w-full max-w-sm flex flex-col items-center justify-center space-y-6">
+              <div className="text-center space-y-4">
+                <h2 className="text-xl font-bold text-white drop-shadow-lg">A little poem for Appa</h2>
+                <div className="p-4 rounded-2xl bg-white/90 backdrop-blur shadow-2xl border border-white/20">
+                  <pre className="whitespace-pre-wrap text-center text-sm sm:text-base leading-relaxed text-gray-800 font-medium">{POEM}</pre>
                 </div>
               </div>
 
-              <div className="relative w-full flex items-center justify-center">
+              <div className="relative w-full flex items-center justify-center scale-75">
                 <BalloonCluster />
               </div>
 
-              <div className="w-full flex items-center justify-between px-6">
+              <div className="w-full flex items-center justify-between">
                 <button
                   onClick={() => go(-1)}
-                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium"
+                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium text-sm"
                 >
                   ← Back
                 </button>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => go(1)}
-                    className="px-4 py-2 rounded-full bg-rose-500 text-white font-semibold shadow-lg"
-                  >
-                    Next →
-                  </button>
-                </div>
+                <button
+                  onClick={() => go(1)}
+                  className="px-4 py-2 rounded-full bg-rose-500 text-white font-semibold shadow-lg text-sm"
+                >
+                  Next →
+                </button>
               </div>
             </div>
           </section>
 
           {/* Slide 3 — Final message */}
-          <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
-            <div className="w-full h-full flex flex-col items-center justify-between py-8">
+          <section className="w-screen flex-shrink-0 flex items-center justify-center px-4 py-6">
+            <div className="w-full max-w-sm flex flex-col items-center justify-center space-y-6">
               <div className="space-y-4 text-center">
-                <h2 className="text-3xl font-bold text-white drop-shadow-lg">To my Appa —</h2>
-                <div className="mt-2 p-6 rounded-2xl bg-white/95 backdrop-blur shadow-2xl max-h-[60vh] overflow-auto border border-white/20">
-                  <p className="whitespace-pre-wrap leading-relaxed text-gray-800 font-medium">{FINAL}</p>
+                <h2 className="text-xl font-bold text-white drop-shadow-lg">To my Appa —</h2>
+                <div className="p-4 rounded-2xl bg-white/95 backdrop-blur shadow-2xl max-h-[50vh] overflow-auto border border-white/20">
+                  <p className="whitespace-pre-wrap leading-relaxed text-gray-800 font-medium text-sm">{FINAL}</p>
                 </div>
               </div>
 
-              <div className="relative w-full flex items-center justify-center my-4">
+              <div className="relative w-full flex items-center justify-center scale-75">
                 <HeartAnimation />
               </div>
 
-              <div className="w-full flex items-center justify-between px-6">
+              <div className="w-full flex items-center justify-between">
                 <button
                   onClick={() => go(-1)}
-                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium"
+                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium text-sm"
                 >
                   ← Back
                 </button>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      const node = containerRef.current;
-                      if (!node) return;
-                      node.classList.add("pulse-heart");
-                      setTimeout(() => node.classList.remove("pulse-heart"), 900);
-                      triggerConfetti();
-                    }}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold shadow-lg"
-                  >
-                    Love ❤️
-                  </button>
-                </div>
+                <button
+                  onClick={() => {
+                    const node = containerRef.current;
+                    if (!node) return;
+                    node.classList.add("pulse-heart");
+                    setTimeout(() => node.classList.remove("pulse-heart"), 900);
+                    triggerConfetti();
+                  }}
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold shadow-lg text-sm"
+                >
+                  Love ❤️
+                </button>
               </div>
             </div>
           </section>
@@ -242,19 +231,19 @@ export default function BirthdayPage() {
 
 function StickerCharacters() {
   return (
-    <div className="flex items-end gap-6 transform-gpu">
+    <div className="flex items-end gap-4 transform-gpu">
       <div className="flex flex-col items-center">
-        <div className="w-32 h-36 rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-end justify-center p-3 shadow-2xl animate-bob border-4 border-white/30">
+        <div className="w-24 h-28 rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-end justify-center p-2 shadow-2xl animate-bob border-4 border-white/30">
           <DadSVG />
         </div>
-        <div className="mt-3 text-lg font-bold text-white drop-shadow-lg">Appa</div>
+        <div className="mt-2 text-sm font-bold text-white drop-shadow-lg">Appa</div>
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="w-24 h-28 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-end justify-center p-2 shadow-2xl animate-bob animation-delay-300 border-4 border-white/30">
+        <div className="w-20 h-24 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-end justify-center p-2 shadow-2xl animate-bob animation-delay-300 border-4 border-white/30">
           <DaughterSVG />
         </div>
-        <div className="mt-3 text-sm font-bold text-white drop-shadow-lg">Daughter</div>
+        <div className="mt-2 text-xs font-bold text-white drop-shadow-lg">Daughter</div>
       </div>
     </div>
   );
@@ -262,7 +251,7 @@ function StickerCharacters() {
 
 function DadSVG() {
   return (
-    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Head */}
       <circle cx="50" cy="32" r="22" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
       {/* Hair */}
@@ -287,7 +276,7 @@ function DadSVG() {
 
 function DaughterSVG() {
   return (
-    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="64" height="64" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       {/* Head */}
       <circle cx="40" cy="25" r="18" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
       {/* Hair */}
@@ -312,12 +301,11 @@ function DaughterSVG() {
 
 function BalloonCluster() {
   return (
-    <div className="w-full flex items-center justify-center mt-4 relative">
-      <div className="flex gap-4 items-end">
+    <div className="w-full flex items-center justify-center relative">
+      <div className="flex gap-2 items-end">
         <Balloon color="#FF6B6B" delay={0} />
         <Balloon color="#4ECDC4" delay={200} />
         <Balloon color="#45B7D1" delay={400} />
-        <Balloon color="#96CEB4" delay={600} />
       </div>
     </div>
   );
@@ -326,7 +314,7 @@ function BalloonCluster() {
 function Balloon({ color, delay = 0 }: { color: string; delay?: number }) {
   return (
     <div className="flex flex-col items-center animate-float-balloon" style={{ animationDelay: `${delay}ms` }}>
-      <svg width="50" height="70" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="40" height="56" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id={`balloon-${color.replace('#','')}`} cx="0.3" cy="0.3">
             <stop offset="0%" stopColor="white" stopOpacity="0.8" />
@@ -344,11 +332,11 @@ function Balloon({ color, delay = 0 }: { color: string; delay?: number }) {
 
 function HeartAnimation() {
   return (
-    <div className="flex items-center justify-center gap-2">
-      {[...Array(5)].map((_, i) => (
+    <div className="flex items-center justify-center gap-1">
+      {[...Array(3)].map((_, i) => (
         <div
           key={i}
-          className="text-3xl animate-pulse-heart"
+          className="text-2xl animate-pulse-heart"
           style={{ animationDelay: `${i * 0.2}s` }}
         >
           ❤️

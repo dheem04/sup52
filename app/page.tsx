@@ -1,122 +1,110 @@
-"use client";
+'use client';
+import { useState, useRef, useEffect } from 'react';
 
-import React, { useEffect, useRef, useState } from "react";
-
-/**
- * Mobile-first Birthday single-page app (3 slides) — replace your app/page.tsx
- * Works great in a Next.js + Tailwind project (create-next-app with Tailwind recommended).
- * No real photos — all stickers / SVG cartoons / CSS confetti.
- */
-
-const POEM = `Dad, you’re my first hero, my strongest guide,
+const POEM = `Dad, you're my first hero, my strongest guide,
 With you by my side, I walk with pride.
 At 52, your love shines even more bright,
-Happy Birthday, Dad — my heart’s pure light.`;
+Happy Birthday, Dad — my heart's pure light.`;
 
 const FINAL = `Happy Birthday Dear Appa,
-I love you a lot. You are my role model and will always be. I know you are gonna ask me to not make you as my role model cause of a lot of things that has happened, but I just see the positives and you are the most hardworking, disciplined and dedicated person I ever know. You aren't just my dad but also my best friend. You just make me always be soo grateful to have a dad like you. I just love you a lot sundara. Many many happy returns of the day.`;
 
-export default function BirthdayApp() {
-  const [idx, setIdx] = useState(0); // current slide
-  const containerRef = useRef<HTMLDivElement | null>(null);
+I love you a lot. You are my role model and will always be. I know you are gonna ask me to not make you as my role model cause of a lot of things that has happened, but I just see the positives and you are the most hardworking, disciplined and dedicated person I ever know. You aren't just my dad but also my best friend. You just make me always be so grateful to have a dad like you. I just love you a lot sundara. Many many happy returns of the day`;
 
-  // touch handling for swipe
-  const startX = useRef<number | null>(null);
-  const deltaX = useRef<number>(0);
+export default function BirthdayPage() {
+  const [idx, setIdx] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [confetti, setConfetti] = useState<Array<{ id: number; color: string; left: number }>>([]);
+
+  const go = (dir: number) => {
+    const newIdx = Math.max(0, Math.min(2, idx + dir));
+    setIdx(newIdx);
+  };
+
+  const triggerConfetti = () => {
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+    const newConfetti = Array.from({ length: 15 }, (_, i) => ({
+      id: Date.now() + i,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      left: Math.random() * 80 + 10
+    }));
+    setConfetti(newConfetti);
+    setTimeout(() => setConfetti([]), 3000);
+  };
 
   useEffect(() => {
-    // subtle entrance animation for first slide
-    document.body.style.background = "linear-gradient(180deg, #FFF7ED 0%, #FFE4F0 100%)";
-    return () => {
-      document.body.style.background = "";
-    };
-  }, []);
-
-  function go(n: number) {
-    setIdx((v) => {
-      const next = Math.max(0, Math.min(2, v + n));
-      return next;
-    });
-  }
-
-  function onTouchStart(e: React.TouchEvent) {
-    startX.current = e.touches[0].clientX;
-    deltaX.current = 0;
-  }
-  function onTouchMove(e: React.TouchEvent) {
-    if (startX.current === null) return;
-    deltaX.current = e.touches[0].clientX - startX.current;
-    // optional: we could move the slides slightly while dragging (omitted for simplicity)
-  }
-  function onTouchEnd() {
-    if (deltaX.current > 60) go(-1);
-    else if (deltaX.current < -60) go(1);
-    startX.current = null;
-    deltaX.current = 0;
-  }
-
-  // click anywhere on first slide to reveal confetti burst
-  function triggerConfetti() {
-    const root = containerRef.current;
-    if (!root) return;
-    // create simple confetti pieces
-    for (let i = 0; i < 22; i++) {
-      const el = document.createElement("div");
-      el.className = "confetti";
-      el.style.left = `${30 + Math.random() * 40}%`;
-      el.style.background = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF"][
-        Math.floor(Math.random() * 4)
-      ];
-      el.style.top = `35%`;
-      root.appendChild(el);
-      // remove after animation
-      setTimeout(() => el.remove(), 2500);
-    }
-  }
+    const timer = setTimeout(() => {
+      if (idx === 0) triggerConfetti();
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [idx]);
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-b from-rose-50 via-amber-50 to-pink-50 flex items-center justify-center">
-      <div
-        ref={containerRef}
-        className="relative w-full max-w-md h-full overflow-hidden rounded-3xl shadow-2xl bg-white/40 backdrop-blur-md mx-auto"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        {/* Sliding wrapper */}
+    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-blue-600">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -inset-10 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        </div>
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(25)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-white/20 rounded-full animate-float-random"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${3 + Math.random() * 2}s`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Confetti */}
+      {confetti.map((piece) => (
         <div
-          className="flex h-full w-[300%] transition-transform duration-700 ease-out"
+          key={piece.id}
+          className="confetti"
+          style={{
+            backgroundColor: piece.color,
+            left: `${piece.left}%`
+          }}
+        />
+      ))}
+
+      <div ref={containerRef} className="relative w-full h-full flex flex-col">
+        {/* Main Content */}
+        <div 
+          className="flex-1 flex transition-transform duration-700 ease-out"
           style={{ transform: `translateX(-${idx * 100}%)` }}
         >
-          {/* Slide 1 — Cover */}
+          {/* Slide 1 — Welcome */}
           <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
             <div className="w-full h-full flex flex-col items-center justify-between py-8">
-              <div className="mt-2 text-center space-y-4">
-                <div className="inline-block px-4 py-2 rounded-full bg-white/70 shadow-sm">
-                  <h1 className="text-3xl font-extrabold tracking-tight">Happy Birthday</h1>
-                  <div className="text-2xl mt-1 font-medium">Appa — 52 🎉</div>
+              <div className="text-center space-y-6">
+                <div className="relative">
+                  <h1 className="text-6xl font-black bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse-slow">
+                    Happy Birthday
+                  </h1>
+                  <div className="absolute -top-4 -right-4 text-4xl animate-spin-slow">✨</div>
                 </div>
+                <h2 className="text-7xl font-black text-white drop-shadow-2xl animate-bounce-gentle">
+                  HAPPY BIRTHDAY APPA
+                </h2>
+                <div className="text-5xl animate-wiggle">❣️</div>
               </div>
 
-              {/* Cartoon sticker: Dad + Daughter */}
-              <div className="relative w-full flex items-center justify-center">
+              <div className="relative w-full flex items-center justify-center my-8">
                 <StickerCharacters />
               </div>
 
-              <div className="w-full flex items-center justify-between px-6">
-                <button
-                  onClick={() => go(-1)}
-                  className="opacity-60 disabled:opacity-30 text-sm"
-                  disabled={idx === 0}
-                >
-                  {/* invisible but present for layout */}
-                </button>
-
-                <div className="text-center">
-                  <p className="text-sm opacity-80">Tap the card for a surprise ✨</p>
-                </div>
-
-                <div className="flex gap-2">
+              <div className="w-full px-6">
+                <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => triggerConfetti()}
                     className="px-3 py-2 rounded-full bg-white/80 backdrop-blur text-sm font-medium shadow"
@@ -139,9 +127,9 @@ export default function BirthdayApp() {
           <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
             <div className="w-full h-full flex flex-col items-center justify-between py-8">
               <div className="mt-2 text-center space-y-4">
-                <h2 className="text-2xl font-bold">A little poem for Appa</h2>
-                <div className="mt-2 p-4 rounded-2xl bg-white/80 shadow">
-                  <pre className="whitespace-pre-wrap text-center text-lg leading-relaxed">{POEM}</pre>
+                <h2 className="text-2xl font-bold text-white drop-shadow-lg">A little poem for Appa</h2>
+                <div className="mt-2 p-6 rounded-2xl bg-white/90 backdrop-blur shadow-2xl border border-white/20">
+                  <pre className="whitespace-pre-wrap text-center text-lg leading-relaxed text-gray-800 font-medium">{POEM}</pre>
                 </div>
               </div>
 
@@ -152,14 +140,14 @@ export default function BirthdayApp() {
               <div className="w-full flex items-center justify-between px-6">
                 <button
                   onClick={() => go(-1)}
-                  className="px-3 py-2 rounded-full bg-white/80 shadow"
+                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium"
                 >
                   ← Back
                 </button>
                 <div className="flex gap-2">
                   <button
                     onClick={() => go(1)}
-                    className="px-3 py-2 rounded-full bg-rose-500 text-white font-semibold shadow"
+                    className="px-4 py-2 rounded-full bg-rose-500 text-white font-semibold shadow-lg"
                   >
                     Next →
                   </button>
@@ -172,29 +160,33 @@ export default function BirthdayApp() {
           <section className="w-screen max-w-md flex-shrink-0 flex items-center justify-center p-6">
             <div className="w-full h-full flex flex-col items-center justify-between py-8">
               <div className="space-y-4 text-center">
-                <h2 className="text-2xl font-bold">To my Appa —</h2>
-                <div className="mt-2 p-4 rounded-2xl bg-white/90 shadow-lg max-h-[52%] overflow-auto text-justify">
-                  <p className="whitespace-pre-wrap leading-relaxed">{FINAL}</p>
+                <h2 className="text-3xl font-bold text-white drop-shadow-lg">To my Appa —</h2>
+                <div className="mt-2 p-6 rounded-2xl bg-white/95 backdrop-blur shadow-2xl max-h-[60vh] overflow-auto border border-white/20">
+                  <p className="whitespace-pre-wrap leading-relaxed text-gray-800 font-medium">{FINAL}</p>
                 </div>
+              </div>
+
+              <div className="relative w-full flex items-center justify-center my-4">
+                <HeartAnimation />
               </div>
 
               <div className="w-full flex items-center justify-between px-6">
                 <button
                   onClick={() => go(-1)}
-                  className="px-3 py-2 rounded-full bg-white/80 shadow"
+                  className="px-4 py-2 rounded-full bg-white/80 backdrop-blur shadow-lg font-medium"
                 >
                   ← Back
                 </button>
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
-                      // small sparkle by toggling a class
                       const node = containerRef.current;
                       if (!node) return;
                       node.classList.add("pulse-heart");
                       setTimeout(() => node.classList.remove("pulse-heart"), 900);
+                      triggerConfetti();
                     }}
-                    className="px-3 py-2 rounded-full bg-amber-400 text-white font-semibold shadow"
+                    className="px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-red-500 text-white font-semibold shadow-lg"
                   >
                     Love ❤️
                   </button>
@@ -210,97 +202,116 @@ export default function BirthdayApp() {
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`w-3 h-3 rounded-full ${i === idx ? "bg-rose-500" : "bg-white/70"} shadow`}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                i === idx ? "bg-white scale-125" : "bg-white/50"
+              } shadow-lg`}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
         </div>
 
-        {/* Confetti styles (inlined) */}
-        <style>{`
-          .confetti{
+        {/* Styles */}
+        <style jsx>{`
+          .confetti {
             position: absolute;
             width: 10px;
             height: 14px;
             border-radius: 3px;
             opacity: 0.95;
             transform-origin: center;
-            animation: confetti-fall 2s ease-out forwards;
+            animation: confetti-fall 2.5s ease-out forwards;
             z-index: 60;
             left: 50%;
           }
-          @keyframes confetti-fall{
-            0%{ transform: translateY(0) rotate(0) }
-            100%{ transform: translateY(280px) rotate(520deg); opacity: 0 }
+          @keyframes confetti-fall {
+            0% { transform: translateY(-20px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
           }
-
-          /* pulse-heart used when "Love" clicked */
-          .pulse-heart::after{
+          .pulse-heart::after {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 24px;
-            box-shadow: 0 0 30px 8px rgba(255,99,132,0.12);
+            box-shadow: 0 0 40px 12px rgba(255,99,132,0.3);
             pointer-events: none;
-            animation: pulse 0.9s ease-out;
+            animation: pulse-effect 0.9s ease-out;
           }
-          @keyframes pulse{ from{ transform: scale(0.96); opacity: 0.9 } to { transform: scale(1.05); opacity: 0 } }
+          @keyframes pulse-effect {
+            from { transform: scale(0.95); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 0; }
+          }
         `}</style>
       </div>
     </div>
   );
 }
 
-
-/** Simple inline SVG characters — lightweight, cute and customizable */
 function StickerCharacters() {
   return (
-    <div className="flex items-end gap-4 transform-gpu">
+    <div className="flex items-end gap-6 transform-gpu">
       <div className="flex flex-col items-center">
-        <div className="w-28 h-32 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-200 flex items-end justify-center p-2 shadow-lg animate-bob">
+        <div className="w-32 h-36 rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-end justify-center p-3 shadow-2xl animate-bob border-4 border-white/30">
           <DadSVG />
         </div>
-        <div className="mt-2 text-sm font-medium">Appa</div>
+        <div className="mt-3 text-lg font-bold text-white drop-shadow-lg">Appa</div>
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="w-20 h-24 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 flex items-end justify-center p-2 shadow-lg animate-bob animation-delay-200">
+        <div className="w-24 h-28 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-end justify-center p-2 shadow-2xl animate-bob animation-delay-300 border-4 border-white/30">
           <DaughterSVG />
         </div>
-        <div className="mt-2 text-sm font-medium">Daughter</div>
+        <div className="mt-3 text-sm font-bold text-white drop-shadow-lg">Daughter</div>
       </div>
-
-      <style>{`
-        .animate-bob{ animation: bob 2.6s ease-in-out infinite }
-        .animation-delay-200{ animation-delay: 0.15s }
-        @keyframes bob{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-8px) } 100%{ transform: translateY(0) } }
-      `}</style>
     </div>
   );
 }
 
 function DadSVG() {
   return (
-    <svg width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="42" cy="26" r="18" fill="#FFE9C9" />
-      <rect x="16" y="44" width="52" height="28" rx="8" fill="#6B46C1" />
-      <circle cx="35" cy="24" r="2.5" fill="#3A3A3A" />
-      <circle cx="49" cy="24" r="2.5" fill="#3A3A3A" />
-      <path d="M33 31c2 2.5 6.5 2.5 8.5 0" stroke="#3A3A3A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M30 38c5 3 18 3 24 0" stroke="#E6C07C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Head */}
+      <circle cx="50" cy="32" r="22" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
+      {/* Hair */}
+      <path d="M28 20c0-8 10-12 22-12s22 4 22 12" fill="#8B4513" stroke="#654321" strokeWidth="1"/>
+      {/* Body */}
+      <rect x="20" y="54" width="60" height="35" rx="12" fill="#4F46E5" stroke="#3730A3" strokeWidth="2"/>
+      {/* Eyes */}
+      <circle cx="42" cy="30" r="3" fill="#2D3748"/>
+      <circle cx="58" cy="30" r="3" fill="#2D3748"/>
+      <circle cx="43" cy="29" r="1" fill="white"/>
+      <circle cx="59" cy="29" r="1" fill="white"/>
+      {/* Smile */}
+      <path d="M40 40c3 4 8 4 11 0" stroke="#2D3748" strokeWidth="2" strokeLinecap="round"/>
+      {/* Mustache */}
+      <path d="M42 36c2-1 6-1 8 0" stroke="#654321" strokeWidth="3" strokeLinecap="round"/>
+      {/* Arms */}
+      <circle cx="15" cy="65" r="8" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+      <circle cx="85" cy="65" r="8" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
     </svg>
   );
 }
 
 function DaughterSVG() {
   return (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="20" r="12" fill="#FFE9C9" />
-      <rect x="14" y="32" width="36" height="22" rx="6" fill="#FF7AB6" />
-      <circle cx="27" cy="19" r="1.8" fill="#3A3A3A" />
-      <circle cx="37" cy="19" r="1.8" fill="#3A3A3A" />
-      <path d="M27 26c1.5 1.7 4.9 1.7 6.4 0" stroke="#3A3A3A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M24 14c2-1 6-1 8 0" stroke="#FF4DA6" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Head */}
+      <circle cx="40" cy="25" r="18" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
+      {/* Hair */}
+      <path d="M22 15c0-6 8-10 18-10s18 4 18 10" fill="#8B4513" stroke="#654321" strokeWidth="1"/>
+      <circle cx="30" cy="12" r="4" fill="#FF69B4" stroke="#E91E63" strokeWidth="1"/>
+      <circle cx="50" cy="12" r="4" fill="#FF69B4" stroke="#E91E63" strokeWidth="1"/>
+      {/* Body */}
+      <rect x="18" y="43" width="44" height="28" rx="10" fill="#EC4899" stroke="#BE185D" strokeWidth="2"/>
+      {/* Eyes */}
+      <circle cx="34" cy="23" r="2.5" fill="#2D3748"/>
+      <circle cx="46" cy="23" r="2.5" fill="#2D3748"/>
+      <circle cx="35" cy="22" r="0.8" fill="white"/>
+      <circle cx="47" cy="22" r="0.8" fill="white"/>
+      {/* Smile */}
+      <path d="M34 30c2 3 6 3 8 0" stroke="#2D3748" strokeWidth="2" strokeLinecap="round"/>
+      {/* Arms */}
+      <circle cx="12" cy="52" r="6" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+      <circle cx="68" cy="52" r="6" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
     </svg>
   );
 }
@@ -308,36 +319,47 @@ function DaughterSVG() {
 function BalloonCluster() {
   return (
     <div className="w-full flex items-center justify-center mt-4 relative">
-      <div className="flex gap-3 items-end">
+      <div className="flex gap-4 items-end">
         <Balloon color="#FF6B6B" delay={0} />
-        <Balloon color="#FFD93D" delay={120} />
-        <Balloon color="#6BCB77" delay={240} />
+        <Balloon color="#4ECDC4" delay={200} />
+        <Balloon color="#45B7D1" delay={400} />
+        <Balloon color="#96CEB4" delay={600} />
       </div>
     </div>
   );
 }
 
 function Balloon({ color, delay = 0 }: { color: string; delay?: number }) {
-  // inlined style to keep bundle tiny
-  const style = {
-    animationDelay: `${delay}ms`,
-  } as React.CSSProperties;
   return (
-    <div className="flex flex-col items-center" style={{ transform: "translateY(0)" }}>
-      <svg width="64" height="84" viewBox="0 0 64 84" fill="none" xmlns="http://www.w3.org/2000/svg" style={style} className="animate-float">
+    <div className="flex flex-col items-center animate-float-balloon" style={{ animationDelay: `${delay}ms` }}>
+      <svg width="50" height="70" viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id={`g-${color.replace('#','')}`} x1="0" x2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.5" />
-          </linearGradient>
+          <radialGradient id={`balloon-${color.replace('#','')}`} cx="0.3" cy="0.3">
+            <stop offset="0%" stopColor="white" stopOpacity="0.8" />
+            <stop offset="70%" stopColor={color} stopOpacity="0.9" />
+            <stop offset="100%" stopColor={color} stopOpacity="1" />
+          </radialGradient>
         </defs>
-        <ellipse cx="32" cy="28" rx="20" ry="24" fill={`url(#g-${color.replace('#','')})`} />
-        <path d="M32 52v20" stroke="#111827" strokeWidth="1.2" strokeLinecap="round" />
+        <ellipse cx="25" cy="25" rx="18" ry="22" fill={`url(#balloon-${color.replace('#','')})`} stroke={color} strokeWidth="1"/>
+        <path d="M25 47 L25 65" stroke="#666" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M22 47 Q25 50 28 47" stroke={color} strokeWidth="2" fill="none"/>
       </svg>
-      <style>{`
-        .animate-float{ animation: floaty 3.2s ease-in-out infinite }
-        @keyframes floaty{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } 100%{ transform: translateY(0) } }
-      `}</style>
+    </div>
+  );
+}
+
+function HeartAnimation() {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="text-3xl animate-pulse-heart"
+          style={{ animationDelay: `${i * 0.2}s` }}
+        >
+          ❤️
+        </div>
+      ))}
     </div>
   );
 }

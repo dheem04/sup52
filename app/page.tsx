@@ -13,7 +13,7 @@ I love you a lot. You are my role model and will always be. I know you are gonna
 export default function BirthdayPage() {
   const [idx, setIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [confetti, setConfetti] = useState<Array<{ id: number; color: string; left: number; delay: number; size: number }>>([]);
+  const [confetti, setConfetti] = useState<Array<{ id: number; color: string; left: number }>>([]);
 
   const go = (dir: number) => {
     const newIdx = Math.max(0, Math.min(2, idx + dir));
@@ -21,16 +21,14 @@ export default function BirthdayPage() {
   };
 
   const triggerConfetti = () => {
-    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#FF69B4', '#32CD32', '#FFD700', '#FF4500'];
-    const newConfetti = Array.from({ length: 30 }, (_, i) => ({
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+    const newConfetti = Array.from({ length: 15 }, (_, i) => ({
       id: Date.now() + i,
       color: colors[Math.floor(Math.random() * colors.length)],
-      left: Math.random() * 100,
-      delay: Math.random() * 500,
-      size: Math.random() * 8 + 6
+      left: Math.random() * 80 + 10
     }));
     setConfetti(newConfetti);
-    setTimeout(() => setConfetti([]), 4000);
+    setTimeout(() => setConfetti([]), 3000);
   };
 
   useEffect(() => {
@@ -74,10 +72,7 @@ export default function BirthdayPage() {
           className="confetti"
           style={{
             backgroundColor: piece.color,
-            left: `${piece.left}%`,
-            width: `${piece.size}px`,
-            height: `${piece.size + 2}px`,
-            animationDelay: `${piece.delay}ms`
+            left: `${piece.left}%`
           }}
         />
       ))}
@@ -110,13 +105,7 @@ export default function BirthdayPage() {
 
               <div className="w-full px-6">
                 <div className="flex items-center justify-center gap-2">
-                  <button
-                    onClick={() => triggerConfetti()}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold shadow-lg hover:scale-105 transition-transform duration-200 animate-pulse"
-                    aria-label="Celebrate now"
-                  >
-                    🎉 Celebrate 🎉
-                  </button>
+                 
                   <button
                     onClick={() => go(1)}
                     className="px-3 py-2 rounded-full bg-rose-500 text-white font-semibold shadow"
@@ -219,26 +208,18 @@ export default function BirthdayPage() {
         <style jsx>{`
           .confetti {
             position: absolute;
-            border-radius: 50%;
-            opacity: 0.9;
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            opacity: 0.95;
             transform-origin: center;
-            animation: confetti-fall 3.5s ease-out forwards;
+            animation: confetti-fall 2.5s ease-out forwards;
             z-index: 60;
-            box-shadow: 0 0 6px rgba(255,255,255,0.3);
+            left: 50%;
           }
           @keyframes confetti-fall {
-            0% { 
-              transform: translateY(-30px) rotate(0deg) scale(0.8); 
-              opacity: 1;
-            }
-            10% {
-              transform: translateY(-10px) rotate(90deg) scale(1.2);
-              opacity: 1;
-            }
-            100% { 
-              transform: translateY(100vh) rotate(1080deg) scale(0.6); 
-              opacity: 0; 
-            }
+            0% { transform: translateY(-20px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
           }
           .pulse-heart::after {
             content: '';

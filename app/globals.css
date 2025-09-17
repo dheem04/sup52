@@ -124,6 +124,10 @@
   animation: flicker 1.5s ease-in-out infinite;
 }
 
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
 /* 3D Transforms */
 .perspective-1000 {
   perspective: 1000px;

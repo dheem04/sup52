@@ -81,7 +81,7 @@ export default function BirthdayPage() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-lg opacity-30 animate-pulse" />
                 <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-                  <div className="text-6xl mb-4 animate-bounce-slow">🎉</div>
+                  <div className="text-6xl mb-4 animate-bounce-slow">❣️</div>
                   <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 animate-text-glow">
                     Happy 52nd Birthday
                   </h1>
@@ -117,7 +117,7 @@ export default function BirthdayPage() {
                 <div className="relative transform-style-3d hover:rotate-y-12 transition-transform duration-700">
                   <div className="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/30 shadow-2xl">
                     <div className="text-center space-y-4">
-                      <div className="text-5xl animate-bounce-gentle">👨👧</div>
+                      <StickerCharacters />
                       <pre className="text-white/90 leading-relaxed text-sm whitespace-pre-wrap font-medium">
                         {MESSAGES.poem}
                       </pre>
@@ -331,5 +331,74 @@ function FloatingBalloon({ color, delay }: { color: string; delay: number }) {
         <line x1="20" y1="45" x2="20" y2="55" stroke="#666" strokeWidth="1" />
       </svg>
     </div>
+  );
+}
+
+function StickerCharacters() {
+  return (
+    <div className="flex items-end gap-6 transform-gpu justify-center mb-4">
+      <div className="flex flex-col items-center">
+        <div className="w-20 h-24 rounded-3xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-end justify-center p-2 shadow-2xl animate-bounce-gentle border-4 border-white/30">
+          <DadSVG />
+        </div>
+        <div className="mt-2 text-sm font-bold text-white drop-shadow-lg">Appa</div>
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="w-16 h-20 rounded-3xl bg-gradient-to-br from-pink-100 to-pink-200 flex items-end justify-center p-2 shadow-2xl animate-bounce-gentle animation-delay-300 border-4 border-white/30">
+          <DaughterSVG />
+        </div>
+        <div className="mt-2 text-xs font-bold text-white drop-shadow-lg">Daughter</div>
+      </div>
+    </div>
+  );
+}
+
+function DadSVG() {
+  return (
+    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Head */}
+      <circle cx="50" cy="32" r="22" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
+      {/* Hair */}
+      <path d="M28 20c0-8 10-12 22-12s22 4 22 12" fill="#8B4513" stroke="#654321" strokeWidth="1"/>
+      {/* Body */}
+      <rect x="20" y="54" width="60" height="35" rx="12" fill="#4F46E5" stroke="#3730A3" strokeWidth="2"/>
+      {/* Eyes */}
+      <circle cx="42" cy="30" r="3" fill="#2D3748"/>
+      <circle cx="58" cy="30" r="3" fill="#2D3748"/>
+      <circle cx="43" cy="29" r="1" fill="white"/>
+      <circle cx="59" cy="29" r="1" fill="white"/>
+      {/* Smile */}
+      <path d="M40 40c3 4 8 4 11 0" stroke="#2D3748" strokeWidth="2" strokeLinecap="round"/>
+      {/* Mustache */}
+      <path d="M42 36c2-1 6-1 8 0" stroke="#654321" strokeWidth="3" strokeLinecap="round"/>
+      {/* Arms */}
+      <circle cx="15" cy="65" r="8" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+      <circle cx="85" cy="65" r="8" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+    </svg>
+  );
+}
+
+function DaughterSVG() {
+  return (
+    <svg width="50" height="50" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Head */}
+      <circle cx="40" cy="25" r="18" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="2"/>
+      {/* Hair */}
+      <path d="M22 15c0-6 8-10 18-10s18 4 18 10" fill="#8B4513" stroke="#654321" strokeWidth="1"/>
+      <circle cx="30" cy="12" r="4" fill="#FF69B4" stroke="#E91E63" strokeWidth="1"/>
+      <circle cx="50" cy="12" r="4" fill="#FF69B4" stroke="#E91E63" strokeWidth="1"/>
+      {/* Body */}
+      <rect x="18" y="43" width="44" height="28" rx="10" fill="#EC4899" stroke="#BE185D" strokeWidth="2"/>
+      {/* Eyes */}
+      <circle cx="34" cy="23" r="2.5" fill="#2D3748"/>
+      <circle cx="46" cy="23" r="2.5" fill="#2D3748"/>
+      <circle cx="35" cy="22" r="0.8" fill="white"/>
+      <circle cx="47" cy="22" r="0.8" fill="white"/>
+      {/* Smile */}
+      <path d="M34 30c2 3 6 3 8 0" stroke="#2D3748" strokeWidth="2" strokeLinecap="round"/>
+      {/* Arms */}
+      <circle cx="12" cy="52" r="6" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+      <circle cx="68" cy="52" r="6" fill="#FDBCB4" stroke="#E09F3E" strokeWidth="1"/>
+    </svg>
   );
 }
